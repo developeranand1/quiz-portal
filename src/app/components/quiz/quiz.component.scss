@@ -1,0 +1,85 @@
+.flex {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+.user-info {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h1.quiz-title {
+  font-size: 20px;
+  border-bottom: 3px solid;
+  line-height: 25px;
+  font-weight: 700;
+}
+
+.question {
+  margin: 0 0 10px 0;
+  padding: 11px 0px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.flex-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submit-button {
+  float: right;
+}
+
+.option {
+  margin-bottom: 30px;
+
+}
+
+.option-index {
+    text-align: center;
+  background-color: cadetblue;
+  color: #fff;
+  border: 1px solid;
+  border-radius: 50%;
+  padding: 7px 10px;
+}
+
+span.radio-box {
+  padding: 8px 17px;
+  border: 1px solid;
+}
+
+p.timing {
+  float: right;
+}
+
+.p-6.bg-white.border.border-gray-200.rounded-lg.shadow.dark\:bg-gray-800.dark\:border-gray-700 {
+  width: 85%;
+}
+
+input[type="radio"] {
+  margin-top: 0px;
+  text-align: center;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+}
+
+label.option-label {
+  cursor: pointer;
+}
+i.fa-solid.fa-circle-xmark {
+  color: red;
+}
+
+i.fa-solid.fa-check-double {
+  font-size: 23px;
+  color: green;
+}

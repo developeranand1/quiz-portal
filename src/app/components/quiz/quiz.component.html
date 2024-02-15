@@ -1,0 +1,159 @@
+<section class="mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div *ngIf="name && email" class="user-info">
+          <p>Welcome, {{name}}</p>
+          <p>Email : {{email}}</p>
+          <button class="btn btn-outline-danger" type="submit" (click)="logout()">Logout</button>
+        </div>
+        <div class="flex">
+          <div
+            class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+          >
+            <div class="quiz-container">
+              <h1 class="quiz-title">{{ quizTitle }}</h1>
+              <p *ngIf="!submitted" class="timing">
+                <i class="fa-solid fa-hourglass-start"></i>   Time remaining: {{ getTimeRemaning() }}
+              </p>
+              <div
+                *ngFor="let question of questions; let i = index"
+                [hidden]="i !== currentQuestionIndex"
+              >
+                <h2 class="question">
+                  <strong>({{ i + 1 }})</strong> {{ question.text }}
+                </h2>
+                <div
+                  *ngIf="submitted && correctAnswers[i] === true"
+                  class="correct-answer"
+                >
+                  Correct!
+                </div>
+                <div
+                  *ngIf="submitted && correctAnswers[i] === false"
+                  class="incorrect-answer mb-3"
+                >
+                  <i class="fa-solid fa-circle-xmark"></i> Incorrect.
+                  <br />
+                  <div class="mt-2">
+                    <i class="fa-solid fa-check-double"></i> Correct answer:
+                    {{ question.answer }}
+                  </div>
+                </div>
+                <div *ngIf="!submitted">
+                  <div
+                    *ngFor="let option of question.options; let j = index"
+                    class="option"
+                  >
+                    <strong class="option-index">{{ getLetter(j) }} </strong>
+                    <span class="radio-box">
+                      <label class="option-label">
+                        {{ option }}
+                        <input
+                          type="radio"
+                          name="question{{ i }}"
+                          [value]="j"
+                          (change)="selectOption(j)"
+                        />
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-button">
+                <button
+                  *ngIf="currentQuestionIndex > 0"
+                  (click)="goToPrevQuestion()"
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Previous
+                </button>
+                <button
+                  *ngIf="currentQuestionIndex < questions.length - 1"
+                  (click)="goToNextQuestion()"
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Next
+                </button>
+              </div>
+              <div class="submit-button">
+                <button
+                  *ngIf="
+                    currentQuestionIndex === questions.length - 1 && !submitted
+                  "
+                  (click)="submitQuiz()"
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Submit
+                </button>
+              </div>
+              <div class="submit-button">
+                <button
+                  routerLink=""
+                  *ngIf="
+                    currentQuestionIndex === questions.length - 1 && submitted
+                  "
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Finished
+                </button>
+              </div>
+              <div *ngIf="submitted" class="mt-3">
+                <h2>
+                  <i class="fa-solid fa-star"></i> Your score:
+                  {{ getScore() }}/{{ questions.length }}
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="flex">
+          <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="quiz-container">
+              <h1 class="quiz-title">{{ quizTitle }}</h1>
+             
+              <div *ngFor="let question of questions; let i = index" [hidden]="i !== currentQuestionIndex">
+                <h2 class="question"><strong>({{ i + 1 }})</strong> {{ question.text }}</h2>
+                <div *ngIf="submitted && correctAnswers[i] === true" class="correct-answer">Correct!</div>
+                <div *ngIf="submitted && correctAnswers[i] === false" class="incorrect-answer">
+                  Incorrect. Correct answer: {{ question.answer }}
+                </div>
+              
+                <div *ngIf="!submitted">
+                  <div *ngFor="let option of question.options; let j = index" class="option">
+                    <strong class="option-index">{{ getLetter(j) }}</strong>
+                    <span class="radio-box">
+                      <label class="option-label">
+                        {{ option }}
+                        <input type="radio" name="question{{ i }}" [value]="j" (change)="selectOption(j)" />
+                      </label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-button">
+                <button *ngIf="currentQuestionIndex > 0" (click)="goToPrevQuestion()" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Previous</button>
+                <button *ngIf="currentQuestionIndex < questions.length - 1" (click)="goToNextQuestion()" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Next</button>
+              </div>
+              <div class="submit-button">
+                <button *ngIf="currentQuestionIndex === questions.length - 1 && !submitted" (click)="submitQuiz()" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+              </div>
+              <div *ngIf="submitted">
+                <h2>Your score: {{ getScore() }}/{{ questions.length }}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
